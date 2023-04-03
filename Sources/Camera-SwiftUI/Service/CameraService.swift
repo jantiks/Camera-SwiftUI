@@ -488,9 +488,7 @@ public class CameraService: NSObject, Identifiable {
          */
         
         if self.setupResult != .configurationFailed {
-            let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
-            let videoOrientation: AVCaptureVideoOrientation = statusBarOrientation?.videoOrientation ?? .portrait
-            let videoPreviewLayerOrientation: AVCaptureVideoOrientation = videoOrientation
+            let videoPreviewLayerOrientation: AVCaptureVideoOrientation = .portrait
             self.isCameraButtonDisabled = true
             
             sessionQueue.async {
