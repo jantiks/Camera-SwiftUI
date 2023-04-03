@@ -488,7 +488,9 @@ public class CameraService: NSObject, Identifiable {
          */
         
         if self.setupResult != .configurationFailed {
-            let videoPreviewLayerOrientation: AVCaptureVideoOrientation = .portrait
+            let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+            let videoOrientation: AVCaptureVideoOrientation = statusBarOrientation?.videoOrientation ?? .portrait
+            let videoPreviewLayerOrientation: AVCaptureVideoOrientation = videoOrientation
             self.isCameraButtonDisabled = true
             
             sessionQueue.async {
@@ -692,6 +694,18 @@ public class CameraService: NSObject, Identifiable {
         print("Capture session interruption ended")
         DispatchQueue.main.async {
             self.isCameraUnavailable = false
+        }
+    }
+}
+
+extension UIInterfaceOrientation {
+    var videoOrientation: AVCaptureVideoOrientation? {
+        switch self {
+        case .portraitUpsideDown: return .portraitUpsideDown
+        case .landscapeRight: return .landscapeRight
+        case .landscapeLeft: return .landscapeLeft
+        case .portrait: return .portrait
+        default: return nil
         }
     }
 }
