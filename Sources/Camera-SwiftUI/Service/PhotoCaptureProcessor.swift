@@ -46,6 +46,7 @@ extension PhotoCaptureProcessor: AVCapturePhotoCaptureDelegate {
     
     /// - Tag: WillCapturePhoto
     func photoOutput(_ output: AVCapturePhotoOutput, willCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        AudioServicesDisposeSystemSoundID(1108)
         DispatchQueue.main.async {
             self.willCapturePhotoAnimation()
         }
@@ -61,6 +62,10 @@ extension PhotoCaptureProcessor: AVCapturePhotoCaptureDelegate {
                 self.photoProcessingHandler(true)
             }
         }
+    }
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        AudioServicesDisposeSystemSoundID(1108)
     }
     
     /// - Tag: DidFinishProcessingPhoto
