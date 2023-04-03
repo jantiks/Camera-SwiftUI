@@ -79,7 +79,11 @@ public struct CameraPreview: UIViewRepresentable {
     }
     
     public func updateUIView(_ uiView: VideoPreviewView, context: Context) {
-        
+        let view = UIView(frame: UIScreen.main.bounds)
+        let statusBarOrientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation
+        let videoOrientation: AVCaptureVideoOrientation = statusBarOrientation?.videoOrientation ?? .portrait
+        uiView.videoPreviewLayer.frame = view.frame
+        uiView.videoPreviewLayer.connection?.videoOrientation = videoOrientation
     }
 }
 
