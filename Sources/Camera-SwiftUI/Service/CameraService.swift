@@ -489,7 +489,7 @@ public class CameraService: NSObject, Identifiable {
          */
         
         if self.setupResult != .configurationFailed {
-            let videoPreviewLayerOrientation: AVCaptureVideoOrientation = .portrait
+            let videoPreviewLayerOrientation: AVCaptureVideoOrientation = UIDevice.current.orientation.videoOrientation
             self.isCameraButtonDisabled = true
             
             sessionQueue.async {
