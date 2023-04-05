@@ -112,7 +112,7 @@ public class CameraService: NSObject, Identifiable {
         }
     }
     
-    public func configure() {
+    public func configure(startAutomatically: Bool) {
         if !self.isSessionRunning && !self.isConfigured {
             /*
              Setup the capture session.
@@ -125,7 +125,7 @@ public class CameraService: NSObject, Identifiable {
              that the main queue isn't blocked, which keeps the UI responsive.
              */
             sessionQueue.async {
-                self.configureSession()
+                self.configureSession(startAutomatically: startAutomatically)
             }
         }
     }
@@ -179,7 +179,7 @@ public class CameraService: NSObject, Identifiable {
     
     // Call this on the session queue.
     /// - Tag: ConfigureSession
-    private func configureSession() {
+    private func configureSession(startAutomatically: Bool) {
         if setupResult != .success {
             return
         }
@@ -246,8 +246,9 @@ public class CameraService: NSObject, Identifiable {
         
         session.commitConfiguration()
         self.isConfigured = true
-        
-        self.start()
+        if startAutomatically {
+            self.start()
+        }
     }
     
     private func resumeInterruptedSession() {
