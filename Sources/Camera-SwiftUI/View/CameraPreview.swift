@@ -52,11 +52,10 @@ public struct CameraPreview: UIViewRepresentable {
         
         public override func layoutSubviews() {
             super.layoutSubviews()
-            focusView.layer.removeFromSuperlayer()
-            self.layer.addSublayer(focusView.layer)
-            
-            let gRecognizer = UITapGestureRecognizer(target: self, action: #selector(VideoPreviewView.focusAndExposeTap(gestureRecognizer:)))
-            self.addGestureRecognizer(gRecognizer)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.videoPreviewLayer.frame = self.bounds
+                self.videoPreviewLayer.connection?.videoOrientation = UIDevice.current.orientation.videoOrientation
+            }
         }
     }
     
@@ -76,8 +75,6 @@ public struct CameraPreview: UIViewRepresentable {
     }
     
     public func updateUIView(_ uiView: VideoPreviewView, context: Context) {
-        uiView.videoPreviewLayer.frame = uiView.bounds
-        uiView.videoPreviewLayer.connection?.videoOrientation = UIDevice.current.orientation.videoOrientation
     }
 }
 
